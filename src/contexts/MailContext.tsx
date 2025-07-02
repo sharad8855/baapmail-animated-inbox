@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -80,14 +79,14 @@ const initialState: MailState = {
   },
 };
 
-// Mock data
+// Mock data with scheduled folder support
 const mockMails: Mail[] = [
   {
     id: uuidv4(),
     from: 'welcome@baapmail.com',
     to: 'user@baapmail.com',
     subject: 'Welcome to BAAP Mail! 🎉',
-    body: 'Thank you for choosing BAAP Mail - the most powerful email client. Explore all the features and enjoy seamless communication!',
+    body: 'Thank you for choosing BAAP Mail - the most powerful email client. Explore all the features and enjoy seamless communication with our advanced scheduling system!',
     timestamp: new Date().toISOString(),
     starred: true,
     folder: 'inbox',
@@ -98,7 +97,7 @@ const mockMails: Mail[] = [
     from: 'team@company.com',
     to: 'user@baapmail.com',
     subject: 'Project Update - Q4 Review',
-    body: 'Here is the quarterly review document. Please review and provide your feedback by end of week.',
+    body: 'Here is the quarterly review document. Please review and provide your feedback by end of week. The meeting is scheduled for next Tuesday.',
     timestamp: new Date(Date.now() - 86400000).toISOString(),
     starred: false,
     folder: 'inbox',
@@ -109,11 +108,22 @@ const mockMails: Mail[] = [
     from: 'newsletter@tech.com',
     to: 'user@baapmail.com',
     subject: 'Weekly Tech Newsletter',
-    body: 'Latest updates in technology, AI, and software development. Don\'t miss these trending topics!',
+    body: 'Latest updates in technology, AI, and software development. Don\'t miss these trending topics and upcoming conference schedules!',
     timestamp: new Date(Date.now() - 172800000).toISOString(),
     starred: false,
     folder: 'inbox',
     read: false,
+  },
+  {
+    id: uuidv4(),
+    from: 'user@baapmail.com',
+    to: 'colleague@company.com',
+    subject: 'Meeting Reminder - Tomorrow 3 PM',
+    body: 'This is a scheduled reminder about our meeting tomorrow at 3 PM. Please bring the quarterly reports.',
+    timestamp: new Date(Date.now() + 86400000).toISOString(),
+    starred: false,
+    folder: 'scheduled',
+    read: true,
   },
 ];
 
