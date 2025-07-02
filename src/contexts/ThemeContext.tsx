@@ -7,6 +7,8 @@ interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   isDark: boolean;
+  toggleTheme: () => void;
+  getThemeIcon: () => string;
 }
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
@@ -17,7 +19,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('baapmail-theme') as Theme;
-    if (savedTheme) {
+    if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
       setTheme(savedTheme);
     }
   }, []);
@@ -26,20 +28,26 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('baapmail-theme', theme);
     
     const updateTheme = () => {
+      const root = document.documentElement;
+      
       if (theme === 'dark') {
         setIsDark(true);
-        document.documentElement.classList.add('dark');
+        root.classList.add('dark');
+        root.style.colorScheme = 'dark';
       } else if (theme === 'light') {
         setIsDark(false);
-        document.documentElement.classList.remove('dark');
+        root.classList.remove('dark');
+        root.style.colorScheme = 'light';
       } else {
         // system
         const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
         setIsDark(isDarkSystem);
+        root.style.colorScheme = isDarkSystem ? 'dark' : 'light';
+        
         if (isDarkSystem) {
-          document.documentElement.classList.add('dark');
+          root.classList.add('dark');
         } else {
-          document.documentElement.classList.remove('dark');
+          root.classList.remove('dark');
         }
       }
     };
@@ -48,13 +56,41 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      mediaQuery.addEventListener('change', updateTheme);
-      return () => mediaQuery.removeEventListener('change', updateTheme);
+      const handleChange = () => updateTheme();
+      
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, [theme]);
 
+  const toggleTheme = () => {
+    const themes: Theme[] = ['light', 'dark', 'system'];
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    setTheme(themes[nextIndex]);
+  };
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light':
+        return '☀️';
+      case 'dark':
+        return '🌙';
+      case 'system':
+        return '🖥️';
+      default:
+        return '🖥️';
+    }
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, isDark }}>
+    <ThemeContext.Provider value={{ 
+      theme, 
+      setTheme, 
+      isDark, 
+      toggleTheme, 
+      getThemeIcon 
+    }}>
       {children}
     </ThemeContext.Provider>
   );
