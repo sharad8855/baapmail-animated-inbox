@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMail } from '../contexts/MailContext';
@@ -15,7 +14,7 @@ import { toast } from 'sonner';
 import { useTranslation } from '../hooks/useTranslation';
 
 const MailApp: React.FC = () => {
-  const { state } = useMail();
+  const { state, dispatch } = useMail();
   const { t } = useTranslation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -56,7 +55,7 @@ const MailApp: React.FC = () => {
         },
       });
     }
-  }, [state.mails, state.settings.notifications, t]);
+  }, [state.mails, state.settings.notifications, t, dispatch]);
 
   if (!state.user) {
     return <LoginPage />;

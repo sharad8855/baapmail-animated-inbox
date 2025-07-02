@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, Trash, Clock } from 'lucide-react';
+import { Star, Trash, Clock, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useMail, Mail } from '../contexts/MailContext';
+import { useMail, Mail as MailType } from '../contexts/MailContext';
 import { toast } from 'sonner';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -49,14 +49,14 @@ const MailList: React.FC = () => {
     return mails.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   };
 
-  const handleMailClick = (mail: Mail) => {
+  const handleMailClick = (mail: MailType) => {
     dispatch({ type: 'SET_SELECTED_MAIL', payload: mail });
     if (!mail.read) {
       dispatch({ type: 'MARK_AS_READ', payload: mail.id });
     }
   };
 
-  const handleStarToggle = (e: React.MouseEvent, mail: Mail) => {
+  const handleStarToggle = (e: React.MouseEvent, mail: MailType) => {
     e.stopPropagation();
     dispatch({
       type: 'UPDATE_MAIL',

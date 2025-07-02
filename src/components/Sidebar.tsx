@@ -14,7 +14,7 @@ import {
   AlertCircle,
   FolderOpen,
   RefreshCw,
-  FileTemplate,
+  File,
   BarChart3,
   Settings,
   Calendar,
@@ -48,7 +48,7 @@ const customFolders = [
 ];
 
 const bottomItems = [
-  { id: 'templates', icon: FileTemplate, label: 'templates' },
+  { id: 'templates', icon: File, label: 'templates' },
   { id: 'reports', icon: BarChart3, label: 'reports' },
   { id: 'settings', icon: Settings, label: 'settings', action: true },
   { id: 'calendar', icon: Calendar, label: 'calendar' },
