@@ -24,30 +24,38 @@ const FilterBar: React.FC = () => {
     <motion.div
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="p-4 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
+      className="p-6 bg-gradient-to-r from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm"
     >
-      <div className="flex items-center space-x-2 flex-wrap gap-2">
-        <div className="flex items-center space-x-2">
-          <Filter className="h-4 w-4 text-gray-500" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Filters:
-          </span>
-          {activeFilters > 0 && (
-            <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-              {activeFilters} active
-            </Badge>
-          )}
+      <div className="flex items-center space-x-4 flex-wrap gap-3">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center">
+            <Filter className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Smart Filters
+            </span>
+            {activeFilters > 0 && (
+              <Badge variant="secondary" className="ml-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                {activeFilters} active
+              </Badge>
+            )}
+          </div>
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex space-x-3">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               variant={state.filters.unreadOnly ? "default" : "outline"}
               size="sm"
               onClick={() => handleFilterToggle('unreadOnly')}
-              className={state.filters.unreadOnly ? 'bg-blue-600 text-white' : ''}
+              className={`rounded-xl h-10 px-4 font-medium transition-all duration-200 ${
+                state.filters.unreadOnly 
+                  ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg hover:shadow-xl' 
+                  : 'border-2 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/30'
+              }`}
             >
-              <Mail className="h-3 w-3 mr-1" />
+              <Mail className="h-4 w-4 mr-2" />
               {t('unreadOnly')}
             </Button>
           </motion.div>
@@ -57,9 +65,13 @@ const FilterBar: React.FC = () => {
               variant={state.filters.starredOnly ? "default" : "outline"}
               size="sm"
               onClick={() => handleFilterToggle('starredOnly')}
-              className={state.filters.starredOnly ? 'bg-yellow-500 text-white' : ''}
+              className={`rounded-xl h-10 px-4 font-medium transition-all duration-200 ${
+                state.filters.starredOnly 
+                  ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg hover:shadow-xl' 
+                  : 'border-2 hover:border-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/30'
+              }`}
             >
-              <Star className="h-3 w-3 mr-1" />
+              <Star className="h-4 w-4 mr-2" />
               {t('starredOnly')}
             </Button>
           </motion.div>
@@ -69,9 +81,13 @@ const FilterBar: React.FC = () => {
               variant={state.filters.lastWeek ? "default" : "outline"}
               size="sm"
               onClick={() => handleFilterToggle('lastWeek')}
-              className={state.filters.lastWeek ? 'bg-green-600 text-white' : ''}
+              className={`rounded-xl h-10 px-4 font-medium transition-all duration-200 ${
+                state.filters.lastWeek 
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-xl' 
+                  : 'border-2 hover:border-green-300 hover:bg-green-50 dark:hover:bg-green-900/30'
+              }`}
             >
-              <Clock className="h-3 w-3 mr-1" />
+              <Clock className="h-4 w-4 mr-2" />
               {t('lastWeek')}
             </Button>
           </motion.div>
@@ -86,7 +102,7 @@ const FilterBar: React.FC = () => {
                 type: 'UPDATE_FILTERS', 
                 payload: { unreadOnly: false, starredOnly: false, lastWeek: false } 
               })}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl h-10 px-4 font-medium transition-all duration-200"
             >
               Clear all
             </Button>
